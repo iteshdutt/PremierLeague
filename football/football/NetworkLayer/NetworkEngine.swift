@@ -32,7 +32,6 @@ class NetworkEngine {
         let dataTask = session.dataTask(with: urlRequest) { data, response, error in
             guard error == nil else {
                 completion(.failure(.apiError(error!)))
-                print(error?.localizedDescription ?? "Unknown error")
                 return
             }
             guard response != nil, let data = data else {
