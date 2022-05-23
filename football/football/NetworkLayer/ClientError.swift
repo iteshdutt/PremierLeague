@@ -8,7 +8,6 @@
 import Foundation
 
 enum ClientError: Error {
-    case noInternetConnection
     case invalidUrl
     case invalidResponse
     case failToParseResponse
