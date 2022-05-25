@@ -23,28 +23,24 @@ class SeasonTableCell: UITableViewCell {
     @IBOutlet var points: UILabel!
     @IBOutlet var goalDifference: UILabel!
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
     /// This class will set data attributes required for setting the cell
-    /// - Parameter singleSeasonAttributes: an instance of SingleSeasonAttributes
-    func setData(singleSeasonAttributes: SingleSeasonAttributes) {
+    /// - Parameter cellViewModel: an instance of StandingsCellViewModel
+    func setData(_ cellViewModel: StandingsCellViewModel) {
         updateUI()
-        displayName.text = singleSeasonAttributes.displayName
-        fetchImageLogo(imageUrl: singleSeasonAttributes.imageUrl)
-        gamePlayed.text = singleSeasonAttributes.stats[3].displayName
-        wins.text = singleSeasonAttributes.stats[0].displayName
-        losses.text = singleSeasonAttributes.stats[1].displayName
-        draws.text = singleSeasonAttributes.stats[2].displayName
-        goalsFor.text = singleSeasonAttributes.stats[4].displayName
-        goalsAgainst.text = singleSeasonAttributes.stats[5].displayName
-        goalDifference.text = singleSeasonAttributes.stats[8].displayName
-        points.text = singleSeasonAttributes.stats[6].displayName
+        displayName.text = cellViewModel.displayName
+        fetchImageLogo(imageUrl: cellViewModel.imageUrl)
+        gamePlayed.text = cellViewModel.stats[3].displayName
+        wins.text = cellViewModel.stats[0].displayName
+        losses.text = cellViewModel.stats[1].displayName
+        draws.text = cellViewModel.stats[2].displayName
+        goalsFor.text = cellViewModel.stats[4].displayName
+        goalsAgainst.text = cellViewModel.stats[5].displayName
+        goalDifference.text = cellViewModel.stats[8].displayName
+        points.text = cellViewModel.stats[6].displayName
     }
     
     /// This function will download the image from the given image url

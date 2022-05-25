@@ -13,19 +13,15 @@ class PremierLeagueSeasonTableCell: UITableViewCell {
     @IBOutlet var displayName: UILabel!
     @IBOutlet var displayDate: UILabel!
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
     /// This class will set data attributes required for setting the cell
-    /// - Parameter singleSeasonAttributes: an instance of PremierLeagueSeasonAttributes
-    func setData(seasonAttributes: PremierLeagueSeasonAttributes) {
+    /// - Parameter cellViewModel: an instance of LeagueSeasonsCellViewModel
+    func setData(_ cellViewModel: LeagueSeasonsCellViewModel) {
         self.isUserInteractionEnabled = true
-        displayName.text = seasonAttributes.displayName
-        displayDate.text = seasonAttributes.leagueSeasonDate
+        displayName.text = cellViewModel.displayName
+        displayDate.text = cellViewModel.leagueSeasonDate
     }
 }

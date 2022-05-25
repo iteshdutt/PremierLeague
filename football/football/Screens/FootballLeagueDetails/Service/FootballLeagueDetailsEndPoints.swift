@@ -18,14 +18,14 @@ enum FootballLeagueDetailsEndpoint: EndPoint {
     var scheme: String {
         switch self {
         case .getLeagueDetails:
-            return GlobalConstants.schemeName
+            return NetworkConstants.schemeName
         }
     }
     
     var baseURL: String {
         switch self {
         case .getLeagueDetails:
-            return GlobalConstants.baseUrl
+            return NetworkConstants.baseUrl
         }
     }
     
@@ -46,7 +46,7 @@ enum FootballLeagueDetailsEndpoint: EndPoint {
     var method: String {
         switch self {
         case .getLeagueDetails:
-            return GlobalConstants.getMethod
+            return NetworkConstants.getMethod
         }
     }
 }

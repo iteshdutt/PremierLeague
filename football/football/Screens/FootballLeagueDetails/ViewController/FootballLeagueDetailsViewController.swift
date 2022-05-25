@@ -19,9 +19,8 @@ class FootballLeagueDetailsViewController: UIViewController {
     
     @IBOutlet fileprivate weak var seasonsTableView: UITableView!
     @IBOutlet fileprivate weak var errorView: UIView!
-    fileprivate var seasons = [PremierLeagueSeasonAttributes]()
-    fileprivate lazy var coordinator = {
-        FootballLeagueDetailsCoordinator(viewController: self)
+    fileprivate lazy var viewModel: FootballLeagueDetailsViewModel = {
+        FootballLeagueDetailsViewModel(viewController: self, dataProvider: FootballLeagueDetailsDataProvider())
     }()
     
     override func viewDidLoad() {
@@ -30,14 +29,13 @@ class FootballLeagueDetailsViewController: UIViewController {
         getLeagueData()
     }
     
-    /// This method will call coordinator to get premier league data
+    /// This method will call view model to get premier league data
     fileprivate func getLeagueData() {
         SwiftLoader.show(title: Constants.loadingText, animated: true)
         Task {
             do {
-                let seasons = try await coordinator.getLeagueDetailsData()
-                // Update collection view content
-                updatePremierLeagueData(leagueSeasons: seasons)
+                let seasons = try await viewModel.getLeagueDetailsData()
+                updatePremierLeagueSeasons(leagueSeasons: seasons)
             } catch {
                 showHideErrorScreen(showErrorScreen: true)
             }
@@ -46,11 +44,12 @@ class FootballLeagueDetailsViewController: UIViewController {
     }
     
     /// This function will update the view based on response from api.
-    /// - Parameter leagueSeasons: an array of PremierLeagueSeasonAttributes
-    fileprivate func updatePremierLeagueData(leagueSeasons: [PremierLeagueSeasonAttributes]) {
-        showHideErrorScreen(showErrorScreen: leagueSeasons.isEmpty)
-        if(!leagueSeasons.isEmpty) {
-            seasons = leagueSeasons
+    /// - Parameter leagueSeasons: an array of LeagueSeasonsCellViewModel
+    fileprivate func updatePremierLeagueSeasons(leagueSeasons: [LeagueSeasonsCellViewModel]?) {
+        let hasNoData = leagueSeasons?.isEmpty ?? true
+        showHideErrorScreen(showErrorScreen: hasNoData)
+        if(!hasNoData) {
+            viewModel.seasons = leagueSeasons!
             seasonsTableView.reloadData()
         }
     }
@@ -78,21 +77,22 @@ class FootballLeagueDetailsViewController: UIViewController {
 
 extension FootballLeagueDetailsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return seasons.count
+        return viewModel.seasons.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? PremierLeagueSeasonTableCell, seasons.count > indexPath.row {
-            cell.setData(seasonAttributes: seasons[indexPath.row])
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? PremierLeagueSeasonTableCell, viewModel.seasons.count > indexPath.row {
+            let cellViewModel = viewModel.seasons[indexPath.row]
+            cell.setData(cellViewModel)
             return cell
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if seasons.count > indexPath.row {
-            let season = seasons[indexPath.row]
-            coordinator.navigateToDetailsScreen(year: season.year)
+        if viewModel.seasons.count > indexPath.row {
+            let season = viewModel.seasons[indexPath.row]
+            viewModel.navigateToDetailsScreen(year: season.year)
         }
     }
 }

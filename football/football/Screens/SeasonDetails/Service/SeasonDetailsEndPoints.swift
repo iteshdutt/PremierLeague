@@ -21,14 +21,14 @@ enum SeasonDetailsEndPoints: EndPoint {
     var scheme: String {
         switch self {
         case .getSeasonDetails(_):
-            return GlobalConstants.schemeName
+            return NetworkConstants.schemeName
         }
     }
     
     var baseURL: String {
         switch self {
         case .getSeasonDetails(_):
-            return GlobalConstants.baseUrl
+            return NetworkConstants.baseUrl
         }
     }
     
@@ -52,7 +52,7 @@ enum SeasonDetailsEndPoints: EndPoint {
     var method: String {
         switch self {
         case .getSeasonDetails(_):
-            return GlobalConstants.getMethod
+            return NetworkConstants.getMethod
         }
     }
 }

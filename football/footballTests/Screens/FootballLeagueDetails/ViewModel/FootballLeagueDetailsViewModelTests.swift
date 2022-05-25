@@ -6,20 +6,50 @@
 //
 
 import XCTest
-
 @testable import football
 
 class FootballLeagueDetailsViewModelTests: XCTestCase {
-    
-    let viewModel: FootballLeagueDetailsViewModel = FootballLeagueDetailsViewModel()
-    
-    func testGetDisplayName() {
-        let emptySeason = FootballLeagueDetailsSeason(year: nil, startDate: nil, endDate: nil, displayName: nil, types: nil)
-        let emptyDisplayName = viewModel.getLeagueSeasonDate(season: emptySeason)
-        XCTAssertEqual(emptyDisplayName, "")
+    let viewModel: FootballLeagueDetailsViewModel = FootballLeagueDetailsViewModel(viewController: FootballLeagueDetailsViewController(), dataProvider: FootballLeagueDetailsDataProvider())
+    let mockViewModel: FootballLeagueDetailsViewModel = FootballLeagueDetailsViewModel(viewController: FootballLeagueDetailsViewController(), dataProvider: MockIFootballLeagueDetailsDataProvider())
+    let mockErrorViewModel: FootballLeagueDetailsViewModel = FootballLeagueDetailsViewModel(viewController: FootballLeagueDetailsViewController(), dataProvider: MockErrorIFootballLeagueDetailsDataProvider())
 
-        let validSeason = FootballLeagueDetailsSeason(year: 2021, startDate: "2021-06-01T04:00Z", endDate: "2022-06-01T03:59Z", displayName: "2021-22 English Premier League", types: nil)
-        let validDisplayName = viewModel.getLeagueSeasonDate(season: validSeason)
-        XCTAssertEqual(validDisplayName, "01/Jun/2021 - 01/Jun/2022")
+    
+    func testGetLeagueDetailsData() async {
+        do {
+            let seasons = try await viewModel.getLeagueDetailsData()
+            XCTAssertFalse(seasons?.isEmpty ?? true)
+        } catch {
+            XCTFail("Api should not fail")
+        }
+    }
+    
+    func testMockGetLeagueDetailsData() async {
+        do {
+            let seasons = try await mockViewModel.getLeagueDetailsData()
+            XCTAssertFalse(seasons?.isEmpty ?? true)
+        } catch {
+            XCTFail("Api should not fail")
+        }
+    }
+    
+    func testMockErrorGetLeagueDetailsData() async {
+        do {
+            _ = try await mockErrorViewModel.getLeagueDetailsData()
+            XCTFail("Api should fail")
+        } catch let error{
+            XCTAssertNotNil(error)
+        }
+    }
+}
+
+class MockIFootballLeagueDetailsDataProvider: IFootballLeagueDetailsDataProvider {
+    func getLeagueDetails(completion: @escaping ([LeagueSeasonsCellViewModel]?, ClientError?) -> ()) {
+        completion([LeagueSeasonsCellViewModel(displayName: "Premier league", leagueSeasonDate: "1/Jun/2020 - 01/Jun/2021", year: 2020)], nil)
+    }
+}
+
+class MockErrorIFootballLeagueDetailsDataProvider: IFootballLeagueDetailsDataProvider {
+    func getLeagueDetails(completion: @escaping ([LeagueSeasonsCellViewModel]?, ClientError?) -> ()) {
+        completion(nil, .invalidResponse)
     }
 }

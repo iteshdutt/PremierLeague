@@ -6,42 +6,43 @@
 //
 
 import Foundation
+import SwiftLoader
 
 fileprivate class Constants {
-    public static let dateFormat = "yyyy-MM-dd'T'hh:mmZ"
-    public static let dateDisplayFormat = "dd/MMM/yyyy"
+    static let loadingText = "Loading..."
 }
 
 /// This class will have business logic for season details screen
 class FootballLeagueDetailsViewModel {
-    
-    /// This function will parse and return string for start date and end date of a season
-    /// - Parameter season: an instance of FootballLeagueDetailsSeason
-    /// - Returns: an instance of String
-    func getLeagueSeasonDate(season: FootballLeagueDetailsSeason) -> String {
-        guard let startDate = season.startDate, let endDate = season.endDate else {
-            return ""
-        }
-        
-        let startDisplayDate = parseDate(dateString: startDate)
-        let endDisplayDate = parseDate(dateString: endDate)
-        if !startDisplayDate.isEmpty {
-            return "\(startDisplayDate) - \(endDisplayDate)"
-        } else {
-            return endDisplayDate
-        }
+
+    private let navigationHandler: FootballLeagueDetailsNavigationHandler
+    private let dataProvider: IFootballLeagueDetailsDataProvider
+    var seasons = [LeagueSeasonsCellViewModel]()
+
+    init(viewController: UIViewController, dataProvider:IFootballLeagueDetailsDataProvider ) {
+        navigationHandler = FootballLeagueDetailsNavigationHandler(controller: viewController as! FootballLeagueDetailsViewController)
+        self.dataProvider = dataProvider
     }
     
-    /// This function will parse date using DateFormatter and return user readable date in selected format
-    /// - Parameter dateString: dateString
-    /// - Returns: an instance of String
-    private func parseDate(dateString: String) -> String {
-        let dateformat = DateFormatter()
-        dateformat.dateFormat = Constants.dateFormat
-        if let date = dateformat.date(from: dateString) {
-            dateformat.dateFormat = Constants.dateDisplayFormat
-            return dateformat.string(from: date)
-        }
-        return ""
+    /// This will make api call to network engine for getting premier league details for every year
+    /// - Parameter year: an instance of string
+    /// - Returns: array of LeagueSeasonsCellViewModel
+    func getLeagueDetailsData() async throws -> [LeagueSeasonsCellViewModel]? {
+        let seasons: [LeagueSeasonsCellViewModel]? = try await withCheckedThrowingContinuation({ continuation in
+            dataProvider.getLeagueDetails { data, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: data)
+                }
+            }
+        })
+        return seasons
+    }
+    
+    /// This will call navigation handler for navigation to Season Details screen
+    /// - Parameter year: year
+    func navigateToDetailsScreen(year: Int) {
+        navigationHandler.routeToDetailsScreen(year: year)
     }
 }

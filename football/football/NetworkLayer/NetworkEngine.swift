@@ -38,12 +38,10 @@ class NetworkEngine {
                 completion(.failure(.invalidResponse))
                 return
             }
-            DispatchQueue.main.async {
-                if let responseObject = try? JSONDecoder().decode(T.self, from: data) {
-                    completion(.success(responseObject))
-                } else {
-                    completion(.failure(.failToParseResponse))
-                }
+            if let responseObject = try? JSONDecoder().decode(T.self, from: data) {
+                completion(.success(responseObject))
+            } else {
+                completion(.failure(.failToParseResponse))
             }
         }
         dataTask.resume()

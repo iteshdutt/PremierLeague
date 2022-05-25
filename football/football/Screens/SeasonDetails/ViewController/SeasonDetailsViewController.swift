@@ -17,30 +17,21 @@ class SeasonDetailsViewController: UIViewController {
     
     @IBOutlet fileprivate weak var seasonsTableView: UITableView!
     @IBOutlet fileprivate weak var errorView: UIView!
-    var year: String!
-    fileprivate var seasons = [SingleSeasonAttributes]()
-    fileprivate lazy var coordinator = {
-        SeasonDetailsCoordinator()
-    }()
+    var viewModel: SeasonDetailsViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getSingleYearLeagueData()
+        self.navigationItem.title = viewModel.year
+        getSelectedYearStandings()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationItem.title = year
-    }
-    
-    /// This method will call coordinator to get standings for selected year.
-    fileprivate func getSingleYearLeagueData() {
+    /// This method will call view model to get standings for selected year.
+    fileprivate func getSelectedYearStandings() {
         SwiftLoader.show(title: GlobalConstants.loadingText, animated: true)
         Task {
             do {
-                let seasons = try await coordinator.getSeasonDetails(year: year)
-                // Update collection view content
-                updateLeagueStandings(leagueSeasons: seasons)
+                let standings = try await viewModel.getSeasonDetails()
+                updateLeagueStandings(standings: standings)
             } catch {
                 showHideErrorScreen(showErrorScreen: true)
             }
@@ -49,11 +40,12 @@ class SeasonDetailsViewController: UIViewController {
     }
     
     /// This function will update the view based on response from api.
-    /// - Parameter leagueSeasons: an array of SingleSeasonAttributes
-    fileprivate func updateLeagueStandings(leagueSeasons: [SingleSeasonAttributes]) {
-        showHideErrorScreen(showErrorScreen: leagueSeasons.isEmpty)
-        if(!leagueSeasons.isEmpty) {
-            seasons = leagueSeasons
+    /// - Parameter leagueSeasons: an array of StandingsCellViewModel
+    fileprivate func updateLeagueStandings(standings: [StandingsCellViewModel]?) {
+        let hasNoData = standings?.isEmpty ?? true
+        showHideErrorScreen(showErrorScreen: hasNoData)
+        if(!hasNoData) {
+            viewModel.standings = standings!
             seasonsTableView.reloadData()
         }
     }
@@ -74,19 +66,19 @@ class SeasonDetailsViewController: UIViewController {
     /// - Parameter sender: sender
     @IBAction func tryAgainButtonPressed(sender: UIButton) {
         sender.isUserInteractionEnabled = false
-        getSingleYearLeagueData()
+        getSelectedYearStandings()
         sender.isUserInteractionEnabled = true
     }
 }
 
 extension SeasonDetailsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return seasons.count
+        return viewModel.standings.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? SeasonTableCell, seasons.count > indexPath.row {
-            cell.setData(singleSeasonAttributes: seasons[indexPath.row])
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) as? SeasonTableCell, viewModel.standings.count > indexPath.row {
+            cell.setData(viewModel.standings[indexPath.row])
             return cell
         }
         return UITableViewCell()

@@ -25,7 +25,9 @@ class FootballLeagueDetailsNavigationHandler {
     func routeToDetailsScreen(year: Int) {
         let storyBoard : UIStoryboard = UIStoryboard(name: GlobalConstants.storyBoard, bundle:nil)
         let seasonDetailsViewController = storyBoard.instantiateViewController(withIdentifier: Constants.identifier) as! SeasonDetailsViewController
-        seasonDetailsViewController.year = String(year)
+        let viewModel = SeasonDetailsViewModel.init(dataProvider: SeasonDetailsDataProvider())
+        viewModel.year = String(year)
+        seasonDetailsViewController.viewModel = viewModel
         viewController.navigationController?.pushViewController(seasonDetailsViewController, animated: true)
     }
 }

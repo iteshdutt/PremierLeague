@@ -5,54 +5,50 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "42511015-513D-41C3-824D-1D1398844874"
+            uuid = "DAAE8DF8-8CAC-4FDF-ABE5-45410615334E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            symbolName = ""
-            moduleName = "">
+            filePath = "footballTests/Screens/SeasonDetails/DataProvider/SeasonDetailsDataProviderTests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "testErrorGetSelectedSeasonDetails()"
+            landmarkType = "7">
             <Locations>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
-         <BreakpointContent
-            uuid = "26D09FE2-1CB1-4C6F-9408-3408B1ED52D4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            symbolName = ""
-            moduleName = "">
-            <Locations>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
-         <BreakpointContent
-            uuid = "93AB0563-D385-42AB-A7D6-0F7236EAC1A5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            symbolName = ""
-            moduleName = "">
-            <Locations>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
-         <BreakpointContent
-            uuid = "43110642-C59E-4196-9278-2A1EE62BE8A6"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            symbolName = ""
-            moduleName = "">
-            <Locations>
+               <Location
+                  uuid = "DAAE8DF8-8CAC-4FDF-ABE5-45410615334E - 5901218620e4d47c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;football.StandingsCellViewModel&gt;&gt;, Swift.Optional&lt;football.ClientError&gt;) -&gt; () in footballTests.SeasonDetailsDataProviderTests.testErrorGetSelectedSeasonDetails() -&gt; ()"
+                  moduleName = "footballTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/itedutt/Documents/MiscProjects/iOS/PS/premier_league_github/PremierLeague/football/footballTests/Screens/SeasonDetails/DataProvider/SeasonDetailsDataProviderTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "DAAE8DF8-8CAC-4FDF-ABE5-45410615334E - 5901218620e4d45d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;football.StandingsCellViewModel&gt;&gt;, Swift.Optional&lt;football.ClientError&gt;) -&gt; () in footballTests.SeasonDetailsDataProviderTests.testErrorGetSelectedSeasonDetails() -&gt; ()"
+                  moduleName = "footballTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/itedutt/Documents/MiscProjects/iOS/PS/premier_league_github/PremierLeague/football/footballTests/Screens/SeasonDetails/DataProvider/SeasonDetailsDataProviderTests.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "64">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
