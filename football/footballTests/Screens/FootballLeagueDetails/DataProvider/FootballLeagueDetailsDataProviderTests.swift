@@ -24,20 +24,5 @@ class FootballLeagueDetailsDataProviderTests: XCTestCase {
             }
         })
         self.waitForExpectations(timeout: 5)
-    }
-    
-//    func testErrorGetSelectedSeasonDetails() {
-//        let expectation = self.expectation(description: "Network call should not fail")
-//        dataProvider.getSelectedSeasonDetails(year: "1900") { data, error in
-//            if(error != nil){
-//                XCTFail("Api should not Fail")
-//                return
-//            }
-//            if(!(data?.isEmpty ?? true)) {
-//                expectation.fulfill()
-//            }
-//        }
-//        self.waitForExpectations(timeout: 5)
-//    }
-    
+    }    
 }
