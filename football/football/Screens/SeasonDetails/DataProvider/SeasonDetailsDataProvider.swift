@@ -20,10 +20,11 @@ class SeasonDetailsDataProvider: ISeasonDetailsDataProvider {
     ///   - completion: completion handler for StandingsCellViewModel and error
     func getSelectedSeasonDetails(year: String, completion: @escaping ([StandingsCellViewModel]?, ClientError?) -> ()) {
         let endPoint = SeasonDetailsEndPoints.getSeasonDetails(year: year)
-        NetworkEngine.request(endpoint: endPoint) { [self] (result: Result<SeasonDetailsReponse, ClientError>) in
+        let apiLoader = APIRequestLoader(apiRequest: SeasonDetailsRequest())
+        apiLoader.loadApiRequest(requestData: endPoint) { [weak self] (result: Result<SeasonDetailsReponse, ClientError>) in
             switch result{
             case  .success(let response):
-                let leagueStandings = getLeagueStandings(response.data?.standings)
+                let leagueStandings = self?.getLeagueStandings(response.data?.standings)
                 completion(leagueStandings, nil)
             case .failure(let error):
                 completion(nil, error)

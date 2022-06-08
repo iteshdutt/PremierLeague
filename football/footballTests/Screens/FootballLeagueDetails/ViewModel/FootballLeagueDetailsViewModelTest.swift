@@ -8,11 +8,11 @@
 import XCTest
 @testable import football
 
-class FootballLeagueDetailsViewModelTests: XCTestCase {
+class FootballLeagueDetailsViewModelTests: BaseXCTestCase {
     let viewModel: FootballLeagueDetailsViewModel = FootballLeagueDetailsViewModel(viewController: FootballLeagueDetailsViewController(), dataProvider: FootballLeagueDetailsDataProvider())
     let mockViewModel: FootballLeagueDetailsViewModel = FootballLeagueDetailsViewModel(viewController: FootballLeagueDetailsViewController(), dataProvider: MockIFootballLeagueDetailsDataProvider())
     let mockErrorViewModel: FootballLeagueDetailsViewModel = FootballLeagueDetailsViewModel(viewController: FootballLeagueDetailsViewController(), dataProvider: MockErrorIFootballLeagueDetailsDataProvider())
-
+    
     
     func testGetLeagueDetailsData() async {
         do {
@@ -44,7 +44,10 @@ class FootballLeagueDetailsViewModelTests: XCTestCase {
 
 class MockIFootballLeagueDetailsDataProvider: IFootballLeagueDetailsDataProvider {
     func getLeagueDetails(completion: @escaping ([LeagueSeasonsCellViewModel]?, ClientError?) -> ()) {
-        completion([LeagueSeasonsCellViewModel(displayName: "Premier league", leagueSeasonDate: "1/Jun/2020 - 01/Jun/2021", year: 2020)], nil)
+        completion([
+            LeagueSeasonsCellViewModel(displayName: "Premier league", leagueSeasonDate: "1/Jun/2020 - 01/Jun/2021", year: 2020),
+            LeagueSeasonsCellViewModel(displayName: "Premier league", leagueSeasonDate: "1/Jun/2019 - 01/Jun/2020", year: 2019)
+        ], nil)
     }
 }
 

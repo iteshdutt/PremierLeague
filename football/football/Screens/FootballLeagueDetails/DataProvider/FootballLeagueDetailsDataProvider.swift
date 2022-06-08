@@ -13,13 +13,14 @@ protocol IFootballLeagueDetailsDataProvider {
 
 /// This class will make use of IFootballLeagueDetailsDataProvider protocol for getting premier league details
 class FootballLeagueDetailsDataProvider: IFootballLeagueDetailsDataProvider {
-    
+       
     /// This function will make call to network engine for getting data for premier league
     /// - Parameters:
     ///   - completion: completion handler for LeagueSeasonsCellViewModel and error
     func getLeagueDetails(completion: @escaping ([LeagueSeasonsCellViewModel]?, ClientError?) -> ()) {
         let endPoint = FootballLeagueDetailsEndpoint.getLeagueDetails
-        NetworkEngine.request(endpoint: endPoint) { (result: Result<FootballLeagueDetailsReponse, ClientError>) in
+        let apiLoader = APIRequestLoader(apiRequest: FootballLeagueDetailsRequest())
+        apiLoader.loadApiRequest(requestData: endPoint) { (result: Result<FootballLeagueDetailsReponse, ClientError>) in
             switch result{
             case  .success(let response):
                 let responseData = response.data?.seasons

@@ -9,7 +9,7 @@ import XCTest
 
 @testable import football
 
-class DateUtilityTests: XCTestCase {
+class DateUtilityTests: BaseXCTestCase {
     
     func testGetDisplayName() {
         let emptySeason = FootballLeagueDetailsSeason(year: nil, startDate: nil, endDate: nil, displayName: nil, types: nil)

@@ -8,7 +8,7 @@
 import XCTest
 @testable import football
 
-class SeasonDetailsViewModelTests: XCTestCase {
+class SeasonDetailsViewModelTests: BaseXCTestCase {
     let viewModel = SeasonDetailsViewModel(dataProvider: SeasonDetailsDataProvider())
     let mockViewModel = SeasonDetailsViewModel(dataProvider: MockISeasonDetailsDataProvider())
     let mockErrorViewModel = SeasonDetailsViewModel(dataProvider: MockErrorISeasonDetailsDataProvider())
@@ -47,7 +47,9 @@ class SeasonDetailsViewModelTests: XCTestCase {
 
 class MockISeasonDetailsDataProvider: ISeasonDetailsDataProvider {
     func getSelectedSeasonDetails(year: String, completion: @escaping ([StandingsCellViewModel]?, ClientError?) -> ()) {
-        completion([StandingsCellViewModel(displayName: "Machester United", imageUrl: "", stats: [StatsAttributes(displayName: "Wins - 38")])], nil)
+        completion([
+            StandingsCellViewModel(displayName: "Machester United", imageUrl: "", stats: [StatsAttributes(displayName: "Wins - 38")])
+        ], nil)
     }
 }
 
